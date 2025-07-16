@@ -1,0 +1,24 @@
+servers:
+- args:
+  - mcp-server-filesystem
+  - /tmp
+  command: uvx
+  description: Filesystem MCP server for file operations
+  enabled: true
+  env: {}
+  name: filesystem
+  retry_attempts: 3
+  retry_delay: 1.0
+  timeout: 30.0
+- args:
+  - mcp-server-git
+  - --repository
+  - .
+  command: uvx
+  description: Git MCP server for version control operations
+  enabled: false
+  env: {}
+  name: git
+  retry_attempts: 3
+  retry_delay: 1.0
+  timeout: 30.0

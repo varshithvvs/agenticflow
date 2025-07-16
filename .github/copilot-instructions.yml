@@ -1,0 +1,70 @@
+# GitHub Copilot Instructions for PydanticAI Workflow Project
+
+# Project Overview
+This is a complete PydanticAI workflow system that integrates:
+- MCP (Model Context Protocol) server integration
+- Intelligent chunking and storage based on content size
+- Conversation-aware memory (short-term and long-term)
+- Real-time streaming responses
+- FastAPI backend with async support
+- Vector storage with FAISS for semantic search
+- Redis for caching and PostgreSQL for persistence
+
+# Code Style and Standards
+style:
+  - Use Python 3.11+ features and type hints
+  - Follow PEP 8 style guidelines
+  - Use Pydantic v2 for data validation and serialization
+  - Prefer async/await for I/O operations
+  - Use descriptive variable and function names
+  - Add comprehensive docstrings for all functions and classes
+  - Include error handling with proper logging
+
+# Architecture Patterns
+patterns:
+  - Use dependency injection for services
+  - Implement repository pattern for data access
+  - Use factory pattern for creating embeddings and chunks
+  - Apply observer pattern for memory consolidation
+  - Use strategy pattern for different chunking algorithms
+  - Implement circuit breaker for MCP server calls
+
+# Key Technologies and Libraries
+technologies:
+  - FastAPI: Web framework with automatic OpenAPI docs
+  - Pydantic: Data validation and settings management
+  - FAISS: Vector similarity search for memory retrieval
+  - Redis: Caching and session storage
+  - PostgreSQL: Persistent data storage
+  - Sentence Transformers: Text embeddings generation
+  - WebSockets: Real-time streaming communication
+  - Docker: Containerization and deployment
+
+# Project Structure Guidelines
+structure:
+  - models/: Pydantic models for data validation
+  - services/: Business logic and external integrations
+  - storage/: Data persistence and retrieval layers
+  - utils/: Utility functions and helpers
+  - tests/: Unit and integration tests
+  - config/: Configuration management
+
+# Common Patterns to Follow
+
+## Error Handling
+```python
+import logging
+from typing import Optional
+
+logger = logging.getLogger(__name__)
+
+async def safe_operation() -> Optional[Result]:
+    try:
+        result = await risky_operation()
+        return result
+    except SpecificException as e:
+        logger.error(f"Specific error occurred: {e}")
+        return None
+    except Exception as e:
+        logger.exception(f"Unexpected error: {e}")
+        raise
