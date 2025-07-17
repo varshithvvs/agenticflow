@@ -251,3 +251,21 @@ class MemoryService:
         }
         
         return stats
+
+    async def cleanup(self):
+        """Cleanup memory service resources"""
+        try:
+            logger.info("Cleaning up memory service")
+            
+            # Clear in-memory data
+            self.conversations.clear()
+            self.memory_chunks.clear()
+            
+            # Cleanup vector store if it has a cleanup method
+            if hasattr(self.vector_store, 'cleanup'):
+                await self.vector_store.cleanup()
+                
+            logger.info("Memory service cleanup completed")
+            
+        except Exception as e:
+            logger.error(f"Error during memory service cleanup: {e}")

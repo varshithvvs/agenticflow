@@ -50,6 +50,52 @@ A complete, production-ready PydanticAI workflow system with comprehensive AWS B
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
+## 🤖 PydanticAI Integration
+
+### Advanced AI Agent Capabilities
+- **Structured Responses**: Type-safe, validated responses with confidence scoring
+- **BedrockConverseModel**: Deep AWS Bedrock integration with PydanticAI agents
+- **Memory Integration**: Agent context awareness with conversation memory
+- **Tool Integration**: Seamless MCP tool calling within PydanticAI workflows
+- **Evidence Tracking**: Source attribution and reasoning chain documentation
+- **Multi-Modal Support**: Text, image, and structured data processing
+
+### PydanticAI Service Features
+
+#### Intelligent Response Generation
+```python
+# Structured response with confidence scoring
+response = await pydantic_ai_service.process_conversation(request)
+print(f"Task Type: {response.task_type}")
+print(f"Confidence: {response.confidence.score}")
+print(f"Evidence: {len(response.evidence)} sources")
+```
+
+#### Agent-Driven Tool Integration
+- **Automatic Tool Discovery**: PydanticAI agents automatically discover and use available MCP tools
+- **Context-Aware Execution**: Agents maintain conversation context across tool calls
+- **Error Recovery**: Intelligent fallback strategies when tools fail
+- **Performance Tracking**: Detailed metrics and execution time tracking
+
+#### Enhanced Memory Context
+- **Agent Memory**: PydanticAI agents access conversation history and context
+- **Semantic Search**: Vector-based memory retrieval for relevant context
+- **Dynamic Context**: Automatic context window management and relevance scoring
+
+### Demo Scripts
+
+**PydanticAI Integration Demo:**
+```bash
+uv run python demo_pydantic_ai.py
+```
+
+This comprehensive demo showcases:
+- Basic conversation with structured responses
+- Code analysis with confidence scoring
+- Memory integration and context awareness
+- Structured output generation
+- Complex workflow orchestration
+
 ## 🔧 Enhanced AWS Bedrock Integration
 
 ### Comprehensive Model Support
@@ -153,6 +199,11 @@ BEDROCK_EMBEDDING_DIMENSION=1536
 EMBEDDING_MODEL=bedrock
 EMBEDDING_FALLBACK_MODEL=sentence-transformers/all-MiniLM-L6-v2
 VECTOR_DIMENSION=1536
+
+# PydanticAI Configuration
+PYDANTIC_AI_MODEL=bedrock
+PYDANTIC_AI_REGION=us-east-1
+PYDANTIC_AI_FALLBACK=test
 ```
 
 #### Development Configuration (Local Only)
@@ -190,6 +241,30 @@ uv run python main.py
 - Web Interface: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 - Health Check: http://localhost:8000/health
+
+### Enhanced API Endpoints
+
+#### PydanticAI Chat Endpoint
+```bash
+POST /api/v1/pydantic-ai/chat
+```
+Direct access to PydanticAI agent with structured responses:
+```json
+{
+  "user_id": "user123",
+  "conversation_id": "conv456",
+  "message": "Analyze this code for security issues",
+  "use_memory": true,
+  "mcp_tools": ["filesystem", "code_analysis"]
+}
+```
+
+#### Enhanced Streaming Endpoints
+```bash
+POST /api/v1/chat/stream          # Enhanced streaming with PydanticAI
+POST /api/v1/workflow/stream      # Advanced workflow orchestration
+GET  /api/v1/health/detailed      # Comprehensive health including PydanticAI
+```
 
 ### Docker Deployment
 

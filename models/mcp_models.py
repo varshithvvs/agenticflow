@@ -48,6 +48,7 @@ class StreamingRequest(BaseModel):
     max_tokens: int = Field(default=1000, ge=1, le=4000)
     max_chunk_size: Optional[int] = Field(default=1000, ge=100, le=10000)
     overlap_size: Optional[int] = Field(default=100, ge=0, le=500)
+    mcp_tools: Optional[List[str]] = Field(default=None, description="Specific MCP tools to use")
 
 class StreamingChunk(BaseModel):
     chunk_id: str

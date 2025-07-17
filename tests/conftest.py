@@ -10,7 +10,7 @@ import tempfile
 import shutil
 
 from config.settings import Settings
-from services.workflow_orchestrator import WorkflowOrchestrator
+from services.workflow_orchestrator import get_workflow_orchestrator
 from storage.vector_store import VectorStore
 
 
@@ -59,7 +59,7 @@ async def cleanup_global_services():
         services.mcp_client._mcp_client = None
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def temp_dir():
     """Create a temporary directory for tests"""
     temp_dir = tempfile.mkdtemp()
@@ -67,7 +67,7 @@ async def temp_dir():
     shutil.rmtree(temp_dir)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def test_settings(temp_dir) -> Settings:
     """Create test settings"""
     settings = Settings()
@@ -77,7 +77,7 @@ async def test_settings(temp_dir) -> Settings:
     return settings
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def vector_store(test_settings) -> AsyncGenerator[VectorStore, None]:
     """Create test vector store"""
     store = VectorStore(
@@ -90,10 +90,9 @@ async def vector_store(test_settings) -> AsyncGenerator[VectorStore, None]:
     await store.cleanup()
 
 
-@pytest.fixture
-async def orchestrator(test_settings) -> AsyncGenerator[WorkflowOrchestrator, None]:
-    """Create test enhanced orchestrator"""
-    orch = WorkflowOrchestrator(test_settings)
-    await orch.initialize()
+@pytest_asyncio.fixture
+async def orchestrator():
+    """Create test PydanticAI orchestrator"""
+    orch = await get_workflow_orchestrator()
     yield orch
     await orch.cleanup()
