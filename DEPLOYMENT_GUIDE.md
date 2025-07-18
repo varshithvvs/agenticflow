@@ -6,7 +6,7 @@
 ```bash
 git clone <repository-url>
 cd agenticflow
-cp .env.example .env
+cp .env.production .env
 ```
 
 ### 2. **Install Dependencies**
@@ -23,13 +23,16 @@ Edit `.env` file with your settings (see Configuration section below).
 
 ### 4. **Start the System**
 ```bash
-# Development mode
-python main.py
+# v1.0 Demo
+uv run python demo_v1.py
 
-# Or with UV
-uv run main.py
+# Development mode
+uv run python main.py
 
 # Production mode
+uv run python start_agentic.py
+
+# Or with uvicorn directly
 uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 
@@ -273,6 +276,55 @@ LOG_LEVEL=DEBUG
 
 # Check logs
 tail -f logs/pydantic_ai_$(date +%Y%m%d).log
+```
+
+## 🧹 Repository Maintenance
+
+### **Pre-deployment Cleanup**
+Before deploying to production, clean the repository:
+
+```bash
+# Clean development artifacts
+./cleanup.sh
+
+# Verify clean state
+ls -la  # Should show only production files
+```
+
+### **Production Deployment Checklist**
+```bash
+# 1. Clone and prepare repository
+git clone <repository-url>
+cd agenticflow
+./cleanup.sh
+
+# 2. Configure environment
+cp .env.production .env
+# Edit .env with your settings
+
+# 3. Install dependencies
+uv sync
+
+# 4. Test configuration
+uv run python demo_v1.py
+
+# 5. Start production server
+uv run python start_agentic.py
+```
+
+### **Maintenance Commands**
+```bash
+# Repository cleanup (removes caches, logs, temp files)
+./cleanup.sh
+
+# Dependency updates
+uv sync --upgrade
+
+# Run full test suite
+uv run pytest
+
+# Health check
+curl http://localhost:8000/api/v1/health/detailed
 ```
 
 ## 🚀 Performance Optimization
